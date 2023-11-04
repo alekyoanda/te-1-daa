@@ -2,7 +2,7 @@ import time
 
 def clustered_binary_insertion_sort(arr):
     pop = 0
-    for i in range(1, len(arr)-1):
+    for i in range(1, len(arr)):
         cop = i
         key = arr[cop]
 
@@ -40,3 +40,10 @@ def place_inserter(arr, start, end):
     arr[start] = temp
     return arr
 
+# arr = []
+# for i in range(200, 0, -1):
+#     arr.append(i)
+
+# print("before", arr)
+# clustered_binary_insertion_sort(arr)
+# print("after", arr)
