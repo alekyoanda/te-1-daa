@@ -104,9 +104,10 @@ def show_graph():
 
 def main():
     evaluate_all(clustered_binary_insertion_sort, randomized_quick_sort)
-    print(runtime_data)
-    print(memory_data)
+    # print(runtime_data)
+    # print(memory_data)
 
-    # show_graph()
+    # uncomment baris kode di bawah ini untuk generasi graph baru
+    # show_graph() 
 
 main()
