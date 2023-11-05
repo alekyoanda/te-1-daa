@@ -23,14 +23,13 @@ def read_data_file(filename):
     return arr
 
 def evaluate_time_and_space(func, filename):
-    tracemalloc.start()
     arr = read_data_file(filename)
-    
+    tracemalloc.start()
     start = timeit.default_timer()
     # print("before", arr)
-    arr = func(arr)
+    func(arr)
     # print("after", arr)
-    malloc = tracemalloc.get_traced_memory()
+    current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
     end = timeit.default_timer()
     runtime = (end-start) * 1000
@@ -39,9 +38,9 @@ def evaluate_time_and_space(func, filename):
     
     print(f"\t\t{func.__name__}")
     print(f"\t\t\tRuntime: {runtime} ms")
-    print(f"\t\t\tMemory Allocation: {malloc}")
+    print(f"\t\t\tMemory Allocation: {peak} bytes")
 
-    return runtime, malloc
+    return runtime, peak
 
 def evaluate_with_filename(func1, func2, filename, no):
     runtime1, memory1 = evaluate_time_and_space(func1, filename)
@@ -70,8 +69,8 @@ def evaluate_all(func1, func2):
 
 def show_graph():
     for i in range(len(SIZE)):
-        size_200_1 = runtime_data[0][i]
-        size_200_2 = runtime_data[1][i]
+        size_200_1 = memory_data[0][i]
+        size_200_2 = memory_data[1][i]
 
         max_value = max(max(size_200_1), max(size_200_2))
 
@@ -93,13 +92,13 @@ def show_graph():
             multiplier += 1
 
         # Add some text for labels, title and custom x-axis tick labels, etc.
-        ax.set_ylabel('Running Time (ms)')
+        ax.set_ylabel('Memory Usage (bytes)')
         ax.set_title(f'Input Size {SIZE[i]}')
         ax.set_xticks(x + width, DATA_TYPE)
         ax.legend(loc='upper left', ncols=3)
         ax.set_ylim(0, max_value * 1.1)
 
-        plt.savefig(f'figure/time_{SIZE[i]}.png')
+        plt.savefig(f'figure/memory_{SIZE[i]}.png')
         plt.show()
 
 def main():
