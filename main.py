@@ -28,7 +28,7 @@ def evaluate_time_and_space(func, filename):
     
     start = timeit.default_timer()
     # print("before", arr)
-    func(arr)
+    arr = func(arr)
     # print("after", arr)
     malloc = tracemalloc.get_traced_memory()
     tracemalloc.stop()
@@ -107,6 +107,6 @@ def main():
     print(runtime_data)
     print(memory_data)
 
-    show_graph()
+    # show_graph()
 
 main()

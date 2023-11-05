@@ -1,5 +1,3 @@
-import time
-
 def clustered_binary_insertion_sort(arr):
     pop = 0
     for i in range(1, len(arr)):
@@ -13,6 +11,8 @@ def clustered_binary_insertion_sort(arr):
         
         pop = place
         arr = place_inserter(arr, pop, cop)
+
+    return arr
 
 def binary_loc_finder(arr, start, end, key):
     mid = start + (end - start) // 2
@@ -32,6 +32,7 @@ def binary_loc_finder(arr, start, end, key):
         return binary_loc_finder(arr, start, mid-1, key)
 
 def place_inserter(arr, start, end):
+    # Algo 1: shifting elements in old array
     temp = arr[end]
 
     for i in range(end, start, -1):
@@ -40,8 +41,15 @@ def place_inserter(arr, start, end):
     arr[start] = temp
     return arr
 
+    # Algo 2: more efficient but returning new array instead shifting element in old array
+    # if end > start:
+    #     arr = arr[:start] + [arr[end]] + arr[start:end] + arr[end+1:]
+    # else:
+    #     arr[start] = arr[end]
+    # return arr
+
 # arr = []
-# for i in range(200, 0, -1):
+# for i in range(5, 0, -1):
 #     arr.append(i)
 
 # print("before", arr)
