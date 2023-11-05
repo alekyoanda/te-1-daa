@@ -1,10 +1,12 @@
-import time
+import numpy as np
 import timeit
 import matplotlib.pyplot as plt
 import tracemalloc
 from clustered_binary_insertion_sort import clustered_binary_insertion_sort
 from randomized_quick_sort import randomized_quick_sort
 
+SIZE = [200, 2000, 20000]
+DATA_TYPE = ["Sorted", "Random", "Reverse"]
 runtime_data = [[[], [], []], [[], [], []]]
 memory_data = [[[], [], []], [[], [], []]]
 
@@ -32,7 +34,7 @@ def evaluate_time_and_space(func, filename):
     tracemalloc.stop()
     end = timeit.default_timer()
     runtime = (end-start) * 1000
-    runtime = float("%.5f" % runtime)
+    runtime = float("%.3f" % runtime)
     
     
     print(f"\t\t{func.__name__}")
@@ -67,15 +69,44 @@ def evaluate_all(func1, func2):
         mult *= 10
 
 def show_graph():
-    pass
+    for i in range(len(SIZE)):
+        size_200_1 = runtime_data[0][i]
+        size_200_2 = runtime_data[1][i]
+
+        max_value = max(max(size_200_1), max(size_200_2))
+
+        dict_200 = {
+            "CBIS": size_200_1,
+            "Random Quick Sort": size_200_2
+        }
+        # plot line 
+        x = np.arange(len(SIZE))  # the label locations
+        width = 0.4  # the width of the bars
+        multiplier = 0
+
+        fig, ax = plt.subplots(layout='constrained')
+
+        for attribute, measurement in dict_200.items():
+            offset = width * multiplier
+            rects = ax.bar(x + offset, measurement, width, label=attribute)
+            ax.bar_label(rects, padding=3)
+            multiplier += 1
+
+        # Add some text for labels, title and custom x-axis tick labels, etc.
+        ax.set_ylabel('Running Time (ms)')
+        ax.set_title(f'Input Size {SIZE[i]}')
+        ax.set_xticks(x + width, DATA_TYPE)
+        ax.legend(loc='upper left', ncols=3)
+        ax.set_ylim(0, max_value * 1.1)
+
+        plt.savefig(f'figure/time_{SIZE[i]}.png')
+        plt.show()
 
 def main():
     evaluate_all(clustered_binary_insertion_sort, randomized_quick_sort)
     print(runtime_data)
     print(memory_data)
 
-    runtime_data.clear()
-    memory_data.clear()
-
+    show_graph()
 
 main()
