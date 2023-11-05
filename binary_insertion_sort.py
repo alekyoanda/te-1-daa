@@ -1,8 +1,7 @@
 def binary_insertion_sort(arr):
     for i in range(1, len(arr)):
         val = arr[i]
-        j = binary_loc_finder(arr, 0, i-1, val)
-        # arr = arr[:j] + [val] + arr[j:i] + arr[i+1:]
+        j = binary_loc_finder(arr, 0, i-1, val) # perbedaan terletak di bagian sini dengan CBIS
 
         arr = place_inserter(arr, j, i)
 
